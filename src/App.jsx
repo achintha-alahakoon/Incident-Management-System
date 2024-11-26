@@ -1,35 +1,50 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from "react";
+import { Button, Layout, theme } from "antd";
+import Logo from "./components/Logo";
+import MenuList from "./components/MenuList";
+import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
+import ToggleThemeButton from "./components/ToggleThemeButton";
 
+const { Header, Sider } = Layout;
 function App() {
-  const [count, setCount] = useState(0)
+  const [darkTheme, setDarkTheme] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
+
+  const toggleTheme = () => {
+    setDarkTheme(!darkTheme);
+  };
+
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Viteeeeeee + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <Layout>
+      <Sider
+        theme={darkTheme ? "dark" : "light"}
+        collapsible
+        trigger={null}
+        collapsed={collapsed}
+        onCollapse={(value) => setCollapsed(value)} // Update collapsed state
+        className="sidebar"
+      >
+        <Logo collapsed={collapsed} /> {/* Pass collapsed state */}
+        <MenuList darkTheme={darkTheme} />
+        <ToggleThemeButton darkTheme={darkTheme} toggleTheme={toggleTheme} />
+      </Sider>
+
+      <Layout>
+        <Header style={{ padding: 0, background: colorBgContainer }}>
+          <Button
+            type="text"
+            className="toggle"
+            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+            onClick={() => setCollapsed(!collapsed)}
+          />
+        </Header>
+      </Layout>
+    </Layout>
+  );
 }
 
-export default App
+export default App;
