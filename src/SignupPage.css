@@ -1,0 +1,130 @@
+:root {
+    --primary-color: #004aad;
+    --secondary-color: #003680;
+    --background-color: #f9f9f9;
+    --text-color: #333;
+    --link-color: #004aad;
+    --link-hover-color: #003680;
+    --box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+    --input-focus-shadow: rgba(0, 74, 173, 0.2);
+    --button-hover-color: #00204d;
+}
+
+body {
+    margin: 0;
+    height: 100%;
+    font-family: Arial, sans-serif;
+    background-color: var(--background-color);
+}
+
+
+.signup-container {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    background: white;
+    border-radius: 12px;
+    box-shadow: var(--box-shadow);
+    overflow: hidden;
+    margin: auto;
+}
+
+
+.signup-logo {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+}
+
+.signup-logo img {
+    max-width: 90%;
+    height: auto;
+    border-radius: 8px;
+}
+
+
+.signup-form {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 3rem;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+
+.signup-form h2 {
+    margin-bottom: 2rem;
+    color: var(--primary-color);
+    font-size: 2rem;
+    text-align: center;
+}
+
+
+.form-group {
+    margin-bottom: 1.8rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: var(--text-color);
+    font-size: 1rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.9rem;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 1rem;
+    background-color: var(--background-color);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 8px var(--input-focus-shadow);
+}
+
+
+.signup-button {
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(120deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: bold;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.signup-button:hover {
+    background: linear-gradient(120deg, var(--secondary-color), var(--button-hover-color));
+    transform: scale(1.02);
+}
+
+
+.signup-form p {
+    margin-top: 2rem;
+    text-align: center;
+    font-size: 1rem;
+    color: #555;
+}
+
+.signup-form a {
+    color: var(--link-color);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.signup-form a:hover {
+    text-decoration: underline;
+}
