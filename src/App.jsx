@@ -5,17 +5,15 @@ import SignInPage from "./pages/SigninPage";
 import ForgotPassword from "./pages/ForgotPassword";
 import SideNavBar from "./pages/SideNavBar";
 
-
 function App() {
-
   return (
-    <Router>  
-          <Routes> 
-            <Route path="/" element={<SignInPage />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/dashboard" element={<SideNavBar />} />
-          </Routes>
+    <Router>
+      <Routes>
+        <Route path="/" element={<SignInPage />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/sidenavbar" element={<SideNavBar />} />
+      </Routes>
     </Router>
   );
 }

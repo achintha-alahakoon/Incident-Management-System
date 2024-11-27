@@ -17,7 +17,7 @@ const SignIn = () => {
 
     // Demo login
     if (formData.username === "admin" && formData.password === "password") {
-      navigate("/dashboard");
+      navigate("/sidenavbar");
     } else {
       setError("Invalid username or password");
     }

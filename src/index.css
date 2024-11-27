@@ -19,6 +19,8 @@
 }
 
 .menu-bar {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
     height: 88vh;
     margin-top: 1rem;
     display: flex;
