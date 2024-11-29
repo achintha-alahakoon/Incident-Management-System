@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Button, Layout, theme } from "antd";
-import { useNavigate } from "react-router-dom";
 import Logo from "../components/Logo";
 import MenuList from "../components/MenuList";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
@@ -9,7 +8,8 @@ import Dashboard from "./Dashboard";
 import AllIncidents from "./AllIncidents";
 import AddIncidents from "./AddIncidents";
 import Employees from "./Employees";
-import Settings from "./Settings";
+import TopHeader from "../components/TopHeader";
+import AvatarComponent from "../components/AvatarComponent";
 
 const { Header, Sider, Content } = Layout;
 
@@ -17,7 +17,6 @@ const SideNavBar = () => {
   const [darkTheme, setDarkTheme] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   const [activeMenu, setActiveMenu] = useState("dashboard");
-  const navigate = useNavigate(); // React Router hook for navigation
 
   const toggleTheme = () => {
     setDarkTheme(!darkTheme);
@@ -28,34 +27,34 @@ const SideNavBar = () => {
   } = theme.useToken();
 
   const headerStyle = {
-    padding: 0,
-    background: darkTheme ? "#001529" : colorBgContainer, // Dark background for dark theme
-    color: darkTheme ? "#fff" : "#000", // White text for dark theme
+    display: "flex",
+    alignItems: "center",
+    padding: "0 16px",
+    background: darkTheme ? "#001529" : colorBgContainer,
+    color: darkTheme ? "#fff" : "#000",
   };
 
   const collapseButtonStyle = {
-    color: darkTheme ? "#fff" : "#000", // White icon for dark theme
+    color: darkTheme ? "#fff" : "#000",
   };
 
-  // Handle logout by navigating to the sign-in page
-  useEffect(() => {
-    if (activeMenu === "logout") {
-      navigate("/"); // Navigate to the sign-in page
-    }
-  }, [activeMenu, navigate]);
+  const menuTitles = {
+    dashboard: "Dashboard",
+    employees: "Employees",
+    allIncidents: "All Incidents",
+    addIncidents: "Add Incidents",
+  };
 
   const renderContent = () => {
     switch (activeMenu) {
       case "dashboard":
         return <Dashboard />;
-      case "employees":
-        return <Employees />;
-      case "settings":
-        return <Settings />;
       case "allIncidents":
         return <AllIncidents />;
       case "addIncidents":
         return <AddIncidents />;
+        case "employees":
+        return <Employees />;
       default:
         return <Dashboard />;
     }
@@ -89,6 +88,14 @@ const SideNavBar = () => {
             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
             onClick={() => setCollapsed(!collapsed)}
           />
+    
+          <div style={{ marginLeft: "20px" }}>
+            <TopHeader title={menuTitles[activeMenu] || "Header"}/>
+          </div>
+
+          <div style={{ marginLeft: "auto" }}>
+            <AvatarComponent />
+          </div>
         </Header>
 
         <Content style={{ padding: "24px", background: "#f0f2f5" }}>

@@ -4,9 +4,7 @@ import {
   AppstoreOutlined,
   SoundOutlined,
   UserOutlined,
-  SettingOutlined,
 } from "@ant-design/icons";
-import { LogoutOutlined } from "@mui/icons-material";
 
 const MenuList = ({ darkTheme, activeMenu, setActiveMenu }) => {
   return (
@@ -26,12 +24,6 @@ const MenuList = ({ darkTheme, activeMenu, setActiveMenu }) => {
       </Menu.SubMenu>
       <Menu.Item key="employees" icon={<UserOutlined />}>
         Employees
-      </Menu.Item>
-      <Menu.Item key="settings" icon={<SettingOutlined />}>
-        Settings
-      </Menu.Item>
-      <Menu.Item key="logout" icon={<LogoutOutlined />}>
-        Logout
       </Menu.Item>
     </Menu>
   );
