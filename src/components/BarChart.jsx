@@ -1,4 +1,3 @@
-import { colors } from '@mui/material';
 import React from 'react';
 import ReactApexChart from 'react-apexcharts';
 
@@ -60,7 +59,8 @@ const BarChart = () => {
         {
           x: new Date('2024-11-06').getTime(),
           y: 92,
-        },{
+        },
+        {
           x: new Date('2024-11-07').getTime(),
           y: 76,
         },
@@ -70,6 +70,18 @@ const BarChart = () => {
         },
         {
           x: new Date('2024-11-09').getTime(),
+          y: 92,
+        },
+        {
+          x: new Date('2024-11-10').getTime(),
+          y: 76,
+        },
+        {
+          x: new Date('2024-11-11').getTime(),
+          y: 85,
+        },
+        {
+          x: new Date('2024-11-12').getTime(),
           y: 92,
         },
       ],

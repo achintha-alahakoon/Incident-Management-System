@@ -7,10 +7,10 @@ const StatBox = ({ title, subtitle, icon, progress, increase }) => {
       <Box display="flex" justifyContent="space-between">
         <Box>
           {icon}
-          <Typography>{title}</Typography>
+          <Typography fontSize="18px" fontWeight="bold">{title}</Typography>
         </Box>
         <Box>
-          <Typography fontWeight="bold">{subtitle}</Typography>
+          <Typography fontSize="14px" fontWeight="bold">{subtitle}</Typography>
         </Box>
       </Box>
       <Box display="flex" justifyContent="space-between" mt="2px">
