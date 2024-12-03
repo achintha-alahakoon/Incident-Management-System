@@ -37,7 +37,6 @@ body {
 }
 
 .signin-logo img {
-    max-width: 90%;
     height: auto;
     border-radius: 8px;
 }
@@ -61,6 +60,9 @@ body {
 
 .form-group {
     margin-bottom: 1.8rem;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .form-group label {
@@ -88,7 +90,9 @@ body {
 }
 
 .signin-button {
-    width: 103.5%;
+    width: 63.5%;
+    margin-left: auto;
+    margin-right: 148px;
     padding: 1rem;
     background: linear-gradient(120deg, var(--primary-color), var(--secondary-color));
     color: white;

@@ -32,7 +32,7 @@ const RadialBarChart = () => {
         },
       },
     },
-    colors: ["#1450A3","seaGreen",  "red"],
+    colors: ["seaGreen","#1450A3", "red"],
     labels: ["Completed", "In Progress", "Declined"],
     responsive: [
       {

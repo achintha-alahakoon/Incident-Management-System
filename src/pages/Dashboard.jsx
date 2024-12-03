@@ -10,20 +10,22 @@ import {
 import BarChart from "../components/BarChart";
 import PieChart from "../components/PieChart";
 import { Button } from "antd";
+import Calendar from "../components/Calendar";
+import Avatar1 from "../assets/Avatar1.png";
+import Avatar2 from "../assets/Avatar2.png";
+import Avatar3 from "../assets/Avatar3.png";
 
 const Dashboard = () => {
   const statBoxData = [
     {
       title: "12,361",
       subtitle: "TOTAL INCIDENTS",
-      progress: 0.75,
       increase: "+14%",
       icon: <SoundOutlined style={{ color: "purple", fontSize: "30px" }} />,
     },
     {
       title: "12,000",
       subtitle: "COMPLETED INCIDENTS",
-      progress: 0.55,
       increase: "+18%",
       icon: (
         <ScheduleOutlined style={{ color: "seagreen", fontSize: "30px" }} />
@@ -32,14 +34,12 @@ const Dashboard = () => {
     {
       title: "300",
       subtitle: "IN PROGRESS INCIDENTS",
-      progress: 0.85,
       increase: "+24%",
       icon: <SyncOutlined style={{ color: "#1450A3", fontSize: "30px" }} />,
     },
     {
       title: "61",
       subtitle: "DECLINED INCIDENTS",
-      progress: 0.15,
       increase: "+19%",
       icon: (
         <PlaylistRemoveOutlined style={{ color: "red", fontSize: "30px" }} />
@@ -70,6 +70,29 @@ const Dashboard = () => {
     },
   ];
 
+  const employeeData = [
+    {
+      name: "John Doe",
+      role: "Manager",
+      pp: Avatar1,
+    },
+    {
+      name: "Jane Smith",
+      role: "Engineer",
+      pp: Avatar2,
+    },
+    {
+      name: "Bob Johnson",
+      role: "Engineer",
+      pp: Avatar3,
+    },
+    {
+      name: "Alice Brown",
+      role: "Engineer",
+      pp: Avatar1,
+    },
+  ];
+
   return (
     <Box
       display="grid"
@@ -97,7 +120,6 @@ const Dashboard = () => {
           <StatBox
             title={data.title}
             subtitle={data.subtitle}
-            progress={data.progress}
             increase={data.increase}
             icon={data.icon}
           />
@@ -174,7 +196,7 @@ const Dashboard = () => {
                 type="text"
                 style={{
                   backgroundColor:
-                    incident.status === "In Progress" ? "purple" : "seagreen",
+                    incident.status === "In Progress" ? "#1450A3" : "seagreen",
                   color: "#fff",
                   fontWeight: "600",
                   borderRadius: "15px",
@@ -189,38 +211,64 @@ const Dashboard = () => {
 
       {/* Row 3 */}
       <Box gridColumn="span 4" gridRow="span 2" backgroundColor="white">
-        {/* <Typography
-          variant="h5"
-          fontWeight="600"
-          sx={{ p: "30px 30px 0 30px" }}
-        >
-          CHART 1
-        </Typography> */}
         <Box height="250px">
           <PieChart isDashboard={true} />
         </Box>
       </Box>
 
       <Box gridColumn="span 4" gridRow="span 2" backgroundColor="white">
-        <Typography
-          variant="h5"
-          fontWeight="600"
-          sx={{ p: "30px 30px 0 30px" }}
-        >
-          CHART 2
-        </Typography>
-        <Box height="250px"></Box>
+        <Box height="250px">
+          <Calendar />
+        </Box>
       </Box>
 
       <Box gridColumn="span 4" gridRow="span 2" backgroundColor="white">
         <Typography
-          variant="h5"
+          variant="h6"
           fontWeight="600"
-          sx={{ p: "30px 30px 0 30px" }}
+          sx={{ p: "20px 30px 10px 30px", borderBottom: "1px solid #eee" }}
         >
-          CHART 3
+          EMPLOYEES
         </Typography>
-        <Box height="250px"></Box>
+        <Box
+          height="230px"
+          sx={{
+            overflowY: "auto",
+            p: "10px 20px",
+            "&::-webkit-scrollbar": { display: "none" },
+            msOverflowStyle: "none",
+            scrollbarWidth: "none",
+          }}
+        >
+          {employeeData.map((employee, index) => (
+            <Box
+              key={index}
+              display="flex"
+              alignItems="center"
+              mb="15px"
+              p="10px"
+              borderRadius="8px"
+              boxShadow={1}
+              sx={{
+                backgroundColor: "#f9f9f9",
+                "&:hover": {
+                  backgroundColor: "#f0f0f0",
+                  boxShadow: 3,
+                },
+              }}
+            >
+              <img src={employee.pp} alt="avatar" width="45px" height="45px" />
+              <Box display="flex" flexDirection="column" marginLeft="1.5rem">
+                <Typography fontSize="16px" fontWeight="600" color="#333">
+                  {employee.name}
+                </Typography>
+                <Typography fontSize="12px" color="#666">
+                  {employee.role}
+                </Typography>
+              </Box>
+            </Box>
+          ))}
+        </Box>
       </Box>
     </Box>
   );

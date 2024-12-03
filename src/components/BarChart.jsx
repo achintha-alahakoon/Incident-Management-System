@@ -29,7 +29,7 @@ const BarChart = () => {
     dataLabels: {
       enabled: false, 
     },
-    colors: ['#2A3663'],
+    colors: ['#D2E0FB'],
   };
 
   const chartSeries = [
@@ -82,6 +82,14 @@ const BarChart = () => {
         },
         {
           x: new Date('2024-11-12').getTime(),
+          y: 92,
+        },
+        {
+          x: new Date('2024-11-13').getTime(),
+          y: 85,
+        },
+        {
+          x: new Date('2024-11-14').getTime(),
           y: 92,
         },
       ],
