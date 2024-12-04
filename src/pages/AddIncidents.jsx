@@ -1,70 +1,208 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import { DataGrid } from "@mui/x-data-grid";
-import "../styles/Incidents.css";
+import React, { useState } from "react";
+import {
+  TextField,
+  MenuItem,
+  Button,
+  Grid,
+  Box,
+  Typography,
+} from "@mui/material";
 
-const columns = [
-  { field: "id", headerName: "ID", width: 90 },
-  {
-    field: "firstName",
-    headerName: "First name",
-    width: 150,
-    editable: true,
-  },
-  {
-    field: "lastName",
-    headerName: "Last name",
-    width: 150,
-    editable: true,
-  },
-  {
-    field: "age",
-    headerName: "Age",
-    type: "number",
-    width: 110,
-    editable: true,
-  },
-  {
-    field: "fullName",
-    headerName: "Full name",
-    description: "This column has a value getter and is not sortable.",
-    sortable: false,
-    width: 160,
-    valueGetter: (value, row) => `${row.firstName || ""} ${row.lastName || ""}`,
-  },
-];
+const AddIncident = () => {
+  const [formData, setFormData] = useState({
+    incident: "",
+    incidentType: "",
+    clientName: "",
+    clientNIC: "",
+    clientAddress: "",
+    clientTellNo: "",
+    clientEmail: "",
+  });
 
-const rows = [
-  { id: 1, lastName: "Snow", firstName: "Jon", age: 14 },
-  { id: 2, lastName: "Lannister", firstName: "Cersei", age: 31 },
-  { id: 3, lastName: "Lannister", firstName: "Jaime", age: 31 },
-  { id: 4, lastName: "Stark", firstName: "Arya", age: 11 },
-  { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-  { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
-  { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-  { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-  { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
-];
+  const [errors, setErrors] = useState({});
 
-export default function DataGridDemo() {
+  const incidentTypes = ["Crucial", "Urgent", "Normal"];
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    Object.keys(formData).forEach((field) => {
+      if (!formData[field]) {
+        newErrors[field] = "This field is required.";
+      }
+    });
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validateForm()) {
+      console.log("Form submitted:", formData);
+      alert("Incident added successfully!");
+      setFormData({
+        incident: "",
+        incidentType: "",
+        clientName: "",
+        clientNIC: "",
+        clientAddress: "",
+        clientTellNo: "",
+        clientEmail: "",
+      });
+      setErrors({});
+    }
+  };
+
+  const handleReset = () => {
+    setFormData({
+      incident: "",
+      incidentType: "",
+      clientName: "",
+      clientNIC: "",
+      clientAddress: "",
+      clientTellNo: "",
+      clientEmail: "",
+    });
+    setErrors({});
+  };
+
   return (
-    <div className="all-incidents-container">
-      <Box sx={{ height: 400, width: "100%" }}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 5,
-              },
-            },
-          }}
-          pageSizeOptions={[5]}
-          checkboxSelection
-          disableRowSelectionOnClick
-        />
-      </Box>
-    </div>
+    <Box
+      sx={{
+        maxWidth: "100%",
+        height: "100%",
+        margin: "auto",
+        padding: "20px",
+        backgroundColor: "#fff",
+      }}
+    >
+      <form onSubmit={handleSubmit}>
+        <Grid container spacing={2}>
+          {/* Row 1 */}
+          <Grid item xs={6}>
+            <TextField
+              variant="standard"
+              label="Incident"
+              name="incident"
+              value={formData.incident}
+              onChange={handleInputChange}
+              fullWidth
+              error={!!errors.incident}
+              helperText={errors.incident}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              variant="standard"
+              label="Incident Type"
+              name="incidentType"
+              value={formData.incidentType}
+              onChange={handleInputChange}
+              select
+              fullWidth
+              error={!!errors.incidentType}
+              helperText={errors.incidentType}
+            >
+              {incidentTypes.map((type) => (
+                <MenuItem key={type} value={type}>
+                  {type}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Grid>
+
+          {/* Row 2 */}
+          <Grid item xs={6}>
+            <TextField
+              variant="standard"
+              label="Client Name"
+              name="clientName"
+              value={formData.clientName}
+              onChange={handleInputChange}
+              fullWidth
+              error={!!errors.clientName}
+              helperText={errors.clientName}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              variant="standard"
+              label="Client NIC"
+              name="clientNIC"
+              value={formData.clientNIC}
+              onChange={handleInputChange}
+              fullWidth
+              error={!!errors.clientNIC}
+              helperText={errors.clientNIC}
+            />
+          </Grid>
+
+          {/* Row 3 */}
+          <Grid item xs={6}>
+            <TextField
+              variant="standard"
+              label="Client Address"
+              name="clientAddress"
+              value={formData.clientAddress}
+              onChange={handleInputChange}
+              fullWidth
+              error={!!errors.clientAddress}
+              helperText={errors.clientAddress}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              variant="standard"
+              label="Client Tell No"
+              name="clientTellNo"
+              value={formData.clientTellNo}
+              onChange={handleInputChange}
+              fullWidth
+              error={!!errors.clientTellNo}
+              helperText={errors.clientTellNo}
+            />
+          </Grid>
+
+          {/* Row 4 */}
+          <Grid item xs={12}>
+            <TextField
+              variant="standard"
+              label="Client Email"
+              name="clientEmail"
+              type="email"
+              value={formData.clientEmail}
+              onChange={handleInputChange}
+              fullWidth
+              error={!!errors.clientEmail}
+              helperText={errors.clientEmail}
+            />
+          </Grid>
+
+          {/* Buttons */}
+          <Grid item xs={6}>
+            <Button type="submit" variant="contained" color="primary" fullWidth>
+              Submit
+            </Button>
+          </Grid>
+          <Grid item xs={6}>
+            <Button
+              type="button"
+              variant="outlined"
+              color="secondary"
+              fullWidth
+              onClick={handleReset}
+            >
+              Reset
+            </Button>
+          </Grid>
+        </Grid>
+      </form>
+    </Box>
   );
-}
+};
+
+export default AddIncident;

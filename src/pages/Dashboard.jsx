@@ -1,5 +1,6 @@
 import React from "react";
 import StatBox from "../components/StatBox";
+import { BiSearch } from "react-icons/bi";
 import { Box, Typography } from "@mui/material";
 import { PlaylistRemoveOutlined } from "@mui/icons-material";
 import {
@@ -14,6 +15,7 @@ import Calendar from "../components/Calendar";
 import Avatar1 from "../assets/Avatar1.png";
 import Avatar2 from "../assets/Avatar2.png";
 import Avatar3 from "../assets/Avatar3.png";
+import "../styles/Dashboard.css";
 
 const Dashboard = () => {
   const statBoxData = [
@@ -72,23 +74,23 @@ const Dashboard = () => {
 
   const employeeData = [
     {
-      name: "John Doe",
-      role: "Manager",
+      name: "Saman Kumara",
+      role: "Engineer",
       pp: Avatar1,
     },
     {
-      name: "Jane Smith",
-      role: "Engineer",
+      name: "Dinushi Tharushika",
+      role: "Network Engineer",
       pp: Avatar2,
     },
     {
-      name: "Bob Johnson",
-      role: "Engineer",
+      name: "Kamal Perera",
+      role: "HR Manager",
       pp: Avatar3,
     },
     {
-      name: "Alice Brown",
-      role: "Engineer",
+      name: "Chathura Dissanayake",
+      role: "System Engineer",
       pp: Avatar1,
     },
   ];
@@ -148,13 +150,20 @@ const Dashboard = () => {
       </Box>
 
       <Box gridColumn="span 4" gridRow="span 2" backgroundColor="white">
-        <Typography
-          variant="h6"
-          fontWeight="600"
-          sx={{ p: "20px 30px 10px 30px", borderBottom: "1px solid #eee" }}
-        >
-          CRUCIAL INCIDENTS
-        </Typography>
+        <Box display="flex" justifyContent="space-between" alignItems="center">
+          <Typography
+            variant="h6"
+            fontWeight="600"
+            sx={{ p: "20px 30px 10px 30px", borderBottom: "1px solid #eee" }}
+          >
+            CRUCIAL INCIDENTS
+          </Typography>
+          {/* <div className="search-box">
+            <input type="text" placeholder="Search" />
+            <BiSearch className="icon" />
+          </div> */}
+        </Box>
+
         <Box
           height="230px"
           sx={{
