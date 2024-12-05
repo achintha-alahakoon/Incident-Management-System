@@ -95,8 +95,6 @@ export default function DataGridDemo() {
             },
           }}
           pageSizeOptions={[5, 10, 25, 50]}
-          checkboxSelection
-          disableRowSelectionOnClick
         />
       </Box>
     </div>
