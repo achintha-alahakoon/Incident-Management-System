@@ -46,13 +46,15 @@ const columns = [
     sortable: false,
     renderCell: (params) => (
       <Tooltip title="Edit">
-        <BiEdit
-          className="edit-icon"
-          onClick={() => handleEditClick(params.row)}
-          style={{ cursor: "pointer" }}
-        />
+        <span>
+          <BiEdit
+            className="edit-icon"
+            onClick={() => handleEditClick(params.row)}
+            style={{ cursor: "pointer" }}
+          />
+        </span>
       </Tooltip>
-    ),
+   ),   
   },
 ];
 
