@@ -4,6 +4,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { BiEdit } from "react-icons/bi";
 import { styled } from "@mui/material/styles";
 import { Tooltip } from "@mui/material";
+import EditIncident from "./EditIncidents";
 import "../styles/Incidents.css";
 
 const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
@@ -37,34 +38,14 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
   },
 }));
 
-const columns = [
+const getColumns = (handleEditClick) => [
   { field: "id", headerName: "Job No", width: 80 },
-  { field: "incident", headerName: "Incident", width: 170, editable: true },
-  {
-    field: "incidentType",
-    headerName: "Incident Type",
-    width: 130,
-    editable: true,
-  },
-  { field: "client", headerName: "Client", width: 160, editable: true },
-  {
-    field: "clientTellNo",
-    headerName: "Client Tell No",
-    width: 120,
-    editable: true,
-  },
-  {
-    field: "clientEmail",
-    headerName: "Client Email",
-    width: 170,
-    editable: true,
-  },
-  {
-    field: "assignedEmployee",
-    headerName: "Assigned Employee",
-    width: 160,
-    editable: true,
-  },
+  { field: "incident", headerName: "Incident", width: 170 },
+  { field: "incidentType", headerName: "Incident Type", width: 130 },
+  { field: "clientName", headerName: "Client Name", width: 160 },
+  { field: "clientTellNo", headerName: "Client Tell No", width: 120 },
+  { field: "clientEmail", headerName: "Client Email", width: 170 },
+  { field: "assignedEmployee", headerName: "Assigned Employee", width: 160 },
   {
     field: "progressStatus",
     headerName: "Progress Status",
@@ -101,7 +82,7 @@ const rows = [
     id: 1,
     incident: "Incident 1",
     incidentType: "Crucial",
-    client: "Client 1",
+    clientName: "Client 1",
     clientTellNo: "070 3212590",
     clientEmail: "achinth@gmail.com",
     assignedEmployee: "Saman Kumara",
@@ -111,7 +92,7 @@ const rows = [
     id: 2,
     incident: "Incident 2",
     incidentType: "Urgent",
-    client: "Client 2",
+    clientName: "Client 2",
     clientTellNo: "072 6881781",
     clientEmail: "isuru@gmail.com",
     assignedEmployee: "Dinushi Tharushika",
@@ -121,7 +102,7 @@ const rows = [
     id: 3,
     incident: "Incident 3",
     incidentType: "Normal",
-    client: "Client 3",
+    clientName: "Client 3",
     clientTellNo: "076 3212590",
     clientEmail: "achinth@gmail.com",
     assignedEmployee: "Saman Kumara",
@@ -131,7 +112,7 @@ const rows = [
     id: 4,
     incident: "Incident 4",
     incidentType: "Urgent",
-    client: "Client 4",
+    clientName: "Client 4",
     clientTellNo: "072 6881781",
     clientEmail: "isuru@gmail.com",
     assignedEmployee: "",
@@ -141,7 +122,7 @@ const rows = [
     id: 5,
     incident: "Incident 5",
     incidentType: "Normal",
-    client: "Client 5",
+    clientName: "Client 5",
     clientTellNo: "076 3212590",
     clientEmail: "achinth@gmail.com",
     assignedEmployee: "Saman Kumara",
@@ -151,7 +132,7 @@ const rows = [
     id: 6,
     incident: "Incident 6",
     incidentType: "Normal",
-    client: "Client 6",
+    clientName: "Client 6",
     clientTellNo: "076 3212590",
     clientEmail: "achinth@gmail.com",
     assignedEmployee: "Saman Kumara",
@@ -159,27 +140,39 @@ const rows = [
   },
 ];
 
-const handleEditClick = (row) => {
-  alert(`Edit clicked for Job No: ${row.id}`);
-};
+export default function AllIncidents() {
+  const [editData, setEditData] = React.useState(null);
+  const [isEditing, setIsEditing] = React.useState(false);
 
-export default function DataGridDemo() {
+  const handleEditClick = (row) => {
+    setEditData(row);
+    setIsEditing(true);
+  };
+
+  const handleBack = () => {
+    setIsEditing(false);
+  };
+
   return (
     <div className="all-incidents-container">
-      <Box sx={{ height: 585, width: "100%" }}>
-        <StyledDataGrid
-          rows={rows}
-          columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 10,
+      {isEditing ? (
+        <EditIncident data={editData} onBack={handleBack} />
+      ) : (
+        <Box sx={{ height: 585, width: "100%" }}>
+          <StyledDataGrid
+            rows={rows}
+            columns={getColumns(handleEditClick)}
+            initialState={{
+              pagination: {
+                paginationModel: {
+                  pageSize: 10,
+                },
               },
-            },
-          }}
-          pageSizeOptions={[5, 10, 25, 50]}
-        />
-      </Box>
+            }}
+            pageSizeOptions={[5, 10, 25, 50]}
+          />
+        </Box>
+      )}
     </div>
   );
 }
