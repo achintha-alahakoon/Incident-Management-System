@@ -78,7 +78,7 @@ const AddIncident = () => {
         margin: "auto",
         padding: "20px",
         backgroundColor: "#fff",
-        background: `url('src/assets/Incident.png') center center/cover no-repeat`, 
+        background: `url('src/assets\Incident.png') cover no-repeat`, 
         position: "relative",
         borderRadius: "8px", 
         boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", 
