@@ -78,27 +78,18 @@ const AddIncident = () => {
         margin: "auto",
         padding: "20px",
         backgroundColor: "#fff",
-        background: `url('src/assets\Incident.png') cover no-repeat`, 
         position: "relative",
         borderRadius: "8px", 
         boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", 
       }}
     >
-      
-        
       <form onSubmit={handleSubmit}>
       <Grid container spacing={2} sx={{ position: "relative", zIndex: 1 }}>
-          {/* Title */}
-          <Grid item xs={12}>
-            <Typography variant="h4" color="white" align="center" gutterBottom>
-              Add Incident
-            </Typography>
-          </Grid>
           
           {/* Row 1 */}
-          <Grid item xs={6}>
+          <Grid item xs={5.5} marginTop={10} marginLeft={2.75} marginRight={2}>
             <TextField
-              variant="standard"
+              variant="outlined"
               label="Incident"
               name="incident"
               value={formData.incident}
@@ -108,9 +99,9 @@ const AddIncident = () => {
               helperText={errors.incident}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={5.5} marginTop={10}>
             <TextField
-              variant="standard"
+              variant="outlined"
               label="Incident Type"
               name="incidentType"
               value={formData.incidentType}
@@ -129,9 +120,9 @@ const AddIncident = () => {
           </Grid>
 
           {/* Row 2 */}
-          <Grid item xs={6}>
+          <Grid item xs={5.5}  marginLeft={2.75} marginRight={2} marginTop={2}>
             <TextField
-              variant="standard"
+              variant="outlined"
               label="Client Name"
               name="clientName"
               value={formData.clientName}
@@ -141,9 +132,9 @@ const AddIncident = () => {
               helperText={errors.clientName}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={5.5} marginTop={2}>
             <TextField
-              variant="standard"
+              variant="outlined"
               label="Client NIC"
               name="clientNIC"
               value={formData.clientNIC}
@@ -155,9 +146,9 @@ const AddIncident = () => {
           </Grid>
 
           {/* Row 3 */}
-          <Grid item xs={6}>
+          <Grid item xs={5.5} marginLeft={2.75} marginRight={2} marginTop={2}>
             <TextField
-              variant="standard"
+              variant="outlined"
               label="Client Address"
               name="clientAddress"
               value={formData.clientAddress}
@@ -167,9 +158,9 @@ const AddIncident = () => {
               helperText={errors.clientAddress}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={5.5} marginTop={2} >
             <TextField
-              variant="standard"
+              variant="outlined"
               label="Client Tell No"
               name="clientTellNo"
               value={formData.clientTellNo}
@@ -181,9 +172,9 @@ const AddIncident = () => {
           </Grid>
 
           {/* Row 4 */}
-          <Grid item xs={12}>
+          <Grid item xs={11.15} marginLeft={2.75} marginTop={2}>
             <TextField
-              variant="standard"
+              variant="outlined"
               label="Client Email"
               name="clientEmail"
               type="email"
@@ -196,16 +187,20 @@ const AddIncident = () => {
           </Grid>
 
           {/* Buttons */}
-          <Grid item xs={6}>
-            <Button type="submit" variant="contained" color="primary" fullWidth>
+          <Grid item xs={5.5} marginLeft={2.75} marginRight={2} marginTop={4}>
+            <Button 
+            type="button" 
+            variant="contained" 
+            color="success"
+            fullWidth>
               Submit
             </Button>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={5.5} marginTop={4}>
             <Button
               type="button"
-              variant="outlined"
-              color="secondary"
+              variant="contained"
+              color="primary"
               fullWidth
               onClick={handleReset}
             >
@@ -214,6 +209,14 @@ const AddIncident = () => {
           </Grid>
         </Grid>
       </form>
+
+      <Box sx={{ textAlign: "center", marginTop: "20px" }}>
+        <img
+          src="src/assets/Incident.png"
+          alt="Incident"
+          style={{ maxWidth: "100%", height: "auto", borderRadius: "8px" }}
+        />
+      </Box>
     </Box>
   );
 };
