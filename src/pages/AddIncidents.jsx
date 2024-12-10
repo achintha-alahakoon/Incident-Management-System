@@ -10,8 +10,8 @@ import {
 
 const AddIncident = () => {
   const [formData, setFormData] = useState({
-    incident: "",
     incidentType: "",
+    incident: "",
     clientName: "",
     clientNIC: "",
     clientAddress: "",
@@ -45,8 +45,8 @@ const AddIncident = () => {
       console.log("Form submitted:", formData);
       alert("Incident added successfully!");
       setFormData({
-        incident: "",
         incidentType: "",
+        incident: "",
         clientName: "",
         clientNIC: "",
         clientAddress: "",
@@ -59,8 +59,8 @@ const AddIncident = () => {
 
   const handleReset = () => {
     setFormData({
-      incident: "",
       incidentType: "",
+      incident: "",
       clientName: "",
       clientNIC: "",
       clientAddress: "",
@@ -78,10 +78,23 @@ const AddIncident = () => {
         margin: "auto",
         padding: "20px",
         backgroundColor: "#fff",
+        background: `url('src/assets/Incident.png') center center/cover no-repeat`, 
+        position: "relative",
+        borderRadius: "8px", 
+        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", 
       }}
     >
+      
+        
       <form onSubmit={handleSubmit}>
-        <Grid container spacing={2}>
+      <Grid container spacing={2} sx={{ position: "relative", zIndex: 1 }}>
+          {/* Title */}
+          <Grid item xs={12}>
+            <Typography variant="h4" color="white" align="center" gutterBottom>
+              Add Incident
+            </Typography>
+          </Grid>
+          
           {/* Row 1 */}
           <Grid item xs={6}>
             <TextField
