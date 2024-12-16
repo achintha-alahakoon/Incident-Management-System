@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Swal from "sweetalert2"; // Import SweetAlert2
+import Swal from "sweetalert2";
 import "../styles/SignupPage.css";
 
 const InputField = ({ label, name, type, value, onChange, placeholder, required }) => (
@@ -169,7 +169,7 @@ const Signup = () => {
         <button type="submit" className="signup-button">
           Create Account
         </button>
-        
+
         <p>
           Already have an account? <a href="/">Login here</a>
         </p>
