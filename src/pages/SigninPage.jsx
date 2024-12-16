@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "../styles/SigninPage.css";
 
 const SignIn = () => {
-  const [formData, setFormData] = useState({ username: "", password: "" });
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
@@ -16,10 +16,10 @@ const SignIn = () => {
     e.preventDefault();
 
     // Demo login
-    if (formData.username === "admin" && formData.password === "1234") {
+    if (formData.email === "admin@gmail.com" && formData.password === "1234") {
       navigate("/sidenavbar");
     } else {
-      setError("Invalid username or password");
+      setError("Invalid email or password");
     }
   };
 
@@ -38,14 +38,14 @@ const SignIn = () => {
         {error && <p className="error-message">{error}</p>}
 
         <div className="form-group">
-          <label htmlFor="username">Username</label>
+          <label htmlFor="email">Email</label>
           <input
-            type="text"
-            id="username"
-            name="username"
-            value={formData.username}
+            type="email"
+            id="email"
+            name="email"
+            value={formData.email}
             onChange={handleInputChange}
-            placeholder="Enter your username"
+            placeholder="Enter your email"
             required
           />
         </div>
