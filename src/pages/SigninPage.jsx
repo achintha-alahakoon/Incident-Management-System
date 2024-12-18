@@ -35,7 +35,6 @@ const SignIn = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ email: formData.email, password: formData.password }),
-
     })
       .then((response) => {
         if (!response.ok) {

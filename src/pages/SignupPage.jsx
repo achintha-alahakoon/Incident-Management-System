@@ -58,8 +58,6 @@ const Signup = () => {
         contactNumber: formData.contactNumber,
       };
 
-      console.log("Form submitted:", payload);
-
       fetch("http://localhost:8080/user/signup", {
         method: "POST",
         headers: {
