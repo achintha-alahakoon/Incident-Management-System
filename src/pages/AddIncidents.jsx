@@ -145,7 +145,7 @@ const AddIncident = () => {
           <Grid item xs={5.5}  marginLeft={2.75} marginRight={2} marginTop={2}>
             <TextField
               variant="outlined"
-              label="Client Name"
+              label="Name with Initials"
               name="clientName"
               value={formData.clientName}
               onChange={handleInputChange}
@@ -157,7 +157,7 @@ const AddIncident = () => {
           <Grid item xs={5.5} marginTop={2}>
             <TextField
               variant="outlined"
-              label="Client NIC"
+              label="NIC"
               name="clientNIC"
               value={formData.clientNIC}
               onChange={handleInputChange}
@@ -171,7 +171,7 @@ const AddIncident = () => {
           <Grid item xs={5.5} marginLeft={2.75} marginRight={2} marginTop={2}>
             <TextField
               variant="outlined"
-              label="Client Address"
+              label="Home Address"
               name="clientAddress"
               value={formData.clientAddress}
               onChange={handleInputChange}
@@ -183,7 +183,7 @@ const AddIncident = () => {
           <Grid item xs={5.5} marginTop={2} >
             <TextField
               variant="outlined"
-              label="Client Tell No"
+              label="Telephone No"
               name="clientTellNo"
               value={formData.clientTellNo}
               onChange={handleInputChange}
@@ -197,7 +197,7 @@ const AddIncident = () => {
           <Grid item xs={11.15} marginLeft={2.75} marginTop={2}>
             <TextField
               variant="outlined"
-              label="Client Email"
+              label="Email Address"
               name="clientEmail"
               type="email"
               value={formData.clientEmail}
