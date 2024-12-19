@@ -1,6 +1,6 @@
 import React, { useState } from "react";
+import Swal from "sweetalert2";
 import "../styles/SignupPage.css";
-
 
 const InputField = ({ label, name, type, value, onChange, placeholder, required }) => (
   <div className="form-group">
@@ -24,7 +24,7 @@ const Signup = () => {
     lastName: "",
     email: "",
     password: "",
-    username: "",
+    contactNumber: "",
   });
 
   const [errors, setErrors] = useState({});
@@ -38,12 +38,12 @@ const Signup = () => {
     const newErrors = {};
     if (!formData.firstName) newErrors.firstName = "First name is required.";
     if (!formData.lastName) newErrors.lastName = "Last name is required.";
-    if (!formData.username) newErrors.username = "Username is required.";
+    if (!formData.contactNumber) newErrors.contactNumber = "Contact Number is required.";
     if (!formData.email || !/\S+@\S+\.\S+/.test(formData.email))
       newErrors.email = "Valid email is required.";
     if (!formData.password || formData.password.length < 6)
       newErrors.password = "Password must be at least 6 characters long.";
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -51,8 +51,53 @@ const Signup = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
-      console.log("Form submitted:", formData);
-     
+      const payload = {
+        name: `${formData.firstName} ${formData.lastName}`,
+        email: formData.email,
+        password: formData.password,
+        contactNumber: formData.contactNumber,
+      };
+
+      fetch("http://localhost:8080/user/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log("Success:", data);
+
+          Swal.fire({
+            icon: "success",
+            title: "Registration Successful",
+            text: "Your account has been created successfully!",
+            confirmButtonText: "OK",
+          });
+
+          setFormData({
+            firstName: "",
+            lastName: "",
+            email: "",
+            password: "",
+            contactNumber: "",
+          });
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+
+          Swal.fire({
+            icon: "error",
+            title: "Registration Failed",
+            text: "There was an issue creating your account. Please try again.",
+          });
+        });
     }
   };
 
@@ -66,7 +111,7 @@ const Signup = () => {
       </div>
       <form className="signup-form" onSubmit={handleSubmit}>
         <h2>Create Your Account</h2>
-        
+
         <InputField
           label="First Name"
           name="firstName"
@@ -76,7 +121,6 @@ const Signup = () => {
           placeholder="Enter your first name"
           required
         />
-        {errors.firstName && <span className="error-text">{errors.firstName}</span>}
 
         <InputField
           label="Last Name"
@@ -87,18 +131,16 @@ const Signup = () => {
           placeholder="Enter your last name"
           required
         />
-        {errors.lastName && <span className="error-text">{errors.lastName}</span>}
 
         <InputField
-          label="Username"
-          name="username"
+          label="Contact Number"
+          name="contactNumber"
           type="text"
-          value={formData.username}
+          value={formData.contactNumber}
           onChange={handleChange}
-          placeholder="Choose a username"
+          placeholder="Enter your Contact Number"
           required
         />
-        {errors.username && <span className="error-text">{errors.username}</span>}
 
         <InputField
           label="Email"
@@ -121,7 +163,7 @@ const Signup = () => {
           required
         />
         {errors.password && <span className="error-text">{errors.password}</span>}
-
+        
         <button type="submit" className="signup-button">
           Create Account
         </button>

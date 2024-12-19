@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Swal from "sweetalert2";
 import "../styles/ForgotPassword.css";
 
 const InputField = ({ label, name, type, value, onChange, placeholder, required }) => (
@@ -31,15 +32,55 @@ const ForgotPassword = () => {
 
   const validateForm = () => {
     const newErrors = {};
-    if (!formData.email) newErrors.email = "Email is required.";
+    if (!formData.email) {
+      newErrors.email = "Email is required.";
+    }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      console.log("Password reset request sent:", formData);
+      try {
+        const response = await fetch("http://localhost:8080/user/forgotPassword", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email: formData.email }),
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          
+          Swal.fire({
+            icon: "success",
+            title: "Success",
+            text: result.message || "Check your mail for the temporary password.",
+          });
+
+          setFormData({
+            email: "",
+          });
+
+        } else {
+          
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: result.message || "Email does not exist.",
+          });
+        }
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "An unexpected error occurred. Please try again later.",
+        });
+        console.error("An error occurred:", error);
+      }
     }
   };
 
