@@ -10,6 +10,7 @@ import AddIncidents from "./AddIncidents";
 import Employees from "./Employees";
 import TopHeader from "../components/TopHeader";
 import AvatarComponent from "../components/AvatarComponent";
+import { NotificationsOutlined } from "@mui/icons-material";
 
 const { Header, Sider, Content } = Layout;
 
@@ -93,9 +94,12 @@ const SideNavBar = () => {
             <TopHeader title={menuTitles[activeMenu] || "Header"}/>
           </div>
 
-          <div style={{ marginLeft: "auto" }}>
+          <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", justifyContent: "center", gap: "1.5rem" }}>
+            <NotificationsOutlined style={{ width: "30px", height: "30px", color: '#969393'}}/>
             <AvatarComponent />
           </div>
+
+          
         </Header>
 
         <Content style={{ padding: "24px", background: "#f0f2f5" }}>

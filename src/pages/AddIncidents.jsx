@@ -5,11 +5,11 @@ import {
   Button,
   Grid,
   Box,
-  Typography,
 } from "@mui/material";
 
 const AddIncident = () => {
   const [formData, setFormData] = useState({
+    incidentCategory: "",
     incidentType: "",
     incident: "",
     clientName: "",
@@ -21,7 +21,7 @@ const AddIncident = () => {
 
   const [errors, setErrors] = useState({});
 
-  const incidentTypes = ["Crucial", "Urgent", "Normal"];
+  const incidentTypes = ["PEO TV", "Router", ""];
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -45,6 +45,7 @@ const AddIncident = () => {
       console.log("Form submitted:", formData);
       alert("Incident added successfully!");
       setFormData({
+        incidentCategory: "",
         incidentType: "",
         incident: "",
         clientName: "",
@@ -59,6 +60,7 @@ const AddIncident = () => {
 
   const handleReset = () => {
     setFormData({
+      incidentCategory: "",
       incidentType: "",
       incident: "",
       clientName: "",
@@ -99,7 +101,7 @@ const AddIncident = () => {
               helperText={errors.incident}
             />
           </Grid>
-          <Grid item xs={5.5} marginTop={10}>
+          {/* <Grid item xs={5.5} marginTop={10}>
             <TextField
               variant="outlined"
               label="Incident Type"
@@ -110,6 +112,26 @@ const AddIncident = () => {
               fullWidth
               error={!!errors.incidentType}
               helperText={errors.incidentType}
+            >
+              {incidentTypes.map((type) => (
+                <MenuItem key={type} value={type}>
+                  {type}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Grid> */}
+
+          <Grid item xs={5.5} marginTop={10}>
+            <TextField
+              variant="outlined"
+              label="Incident Category"
+              name="incidentCategory"
+              value={formData.incidentCategory}
+              onChange={handleInputChange}
+              select
+              fullWidth
+              error={!!errors.incidentCategory}
+              helperText={errors.incidentCategory}
             >
               {incidentTypes.map((type) => (
                 <MenuItem key={type} value={type}>
