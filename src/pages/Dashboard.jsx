@@ -18,6 +18,7 @@ import Avatar3 from "../assets/Avatar3.png";
 import "../styles/Dashboard.css";
 
 const Dashboard = () => {
+  
   const statBoxData = [
     {
       title: "12,361",

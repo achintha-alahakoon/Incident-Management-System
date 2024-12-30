@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   TextField,
   MenuItem,
@@ -6,22 +6,46 @@ import {
   Grid,
   Box,
 } from "@mui/material";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 const AddIncident = () => {
   const [formData, setFormData] = useState({
-    incidentCategory: "",
-    incidentType: "",
     incident: "",
-    clientName: "",
-    clientNIC: "",
-    clientAddress: "",
-    clientTellNo: "",
-    clientEmail: "",
+    categoryId: "",
+    customerName: "",
+    customerNIC: "",
+    customerTelNo: "",
+    customerEmail: "",
+    incidentDescription: "",
+    address: "",
   });
 
   const [errors, setErrors] = useState({});
+  const [categories, setCategories] = useState([]);
 
-  const incidentTypes = ["PEO TV", "Router", ""];
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const token = localStorage.getItem("token");
+      try {
+        const response = await axios.get("http://localhost:8080/category/get", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setCategories(response.data);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Failed to fetch categories. Please try again.",
+        });
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -39,35 +63,72 @@ const AddIncident = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      console.log("Form submitted:", formData);
-      alert("Incident added successfully!");
-      setFormData({
-        incidentCategory: "",
-        incidentType: "",
-        incident: "",
-        clientName: "",
-        clientNIC: "",
-        clientAddress: "",
-        clientTellNo: "",
-        clientEmail: "",
+      const token = localStorage.getItem("token");
+      try {
+        await axios.post(
+          "http://localhost:8080/incident/add",
+          {
+            incident: formData.incident,
+            categoryId: formData.categoryId,
+            customerName: formData.customerName,
+            customerNIC: formData.customerNIC,
+            customerTelNo: formData.customerTelNo,
+            customerEmail: formData.customerEmail,
+            incidentDescription: formData.incidentDescription,
+            address: formData.address,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: "Incident added successfully!",
+        });
+        setFormData({
+          incident: "",
+          categoryId: "",
+          customerName: "",
+          customerNIC: "",
+          address: "",
+          customerTelNo: "",
+          customerEmail: "",
+          incidentDescription: "",
+        });
+        setErrors({});
+      } catch (error) {
+        console.error("Error submitting form:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Failed to add incident. Please try again.",
+        });
+      }
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: "Validation Error",
+        text: "Please fill in all required fields.",
       });
-      setErrors({});
     }
   };
 
   const handleReset = () => {
     setFormData({
-      incidentCategory: "",
-      incidentType: "",
       incident: "",
-      clientName: "",
-      clientNIC: "",
-      clientAddress: "",
-      clientTellNo: "",
-      clientEmail: "",
+      categoryId: "",
+      customerName: "",
+      customerNIC: "",
+      customerTelNo: "",
+      customerEmail: "",
+      incidentDescription: "",
+      address: "",
     });
     setErrors({});
   };
@@ -81,14 +142,12 @@ const AddIncident = () => {
         padding: "20px",
         backgroundColor: "#fff",
         position: "relative",
-        borderRadius: "8px", 
-        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", 
+        borderRadius: "8px",
+        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
       }}
     >
       <form onSubmit={handleSubmit}>
-      <Grid container spacing={2} sx={{ position: "relative", zIndex: 1 }}>
-          
-          {/* Row 1 */}
+        <Grid container spacing={2} sx={{ position: "relative", zIndex: 1 }}>
           <Grid item xs={5.5} marginTop={10} marginLeft={2.75} marginRight={2}>
             <TextField
               variant="outlined"
@@ -101,120 +160,106 @@ const AddIncident = () => {
               helperText={errors.incident}
             />
           </Grid>
-          {/* <Grid item xs={5.5} marginTop={10}>
-            <TextField
-              variant="outlined"
-              label="Incident Type"
-              name="incidentType"
-              value={formData.incidentType}
-              onChange={handleInputChange}
-              select
-              fullWidth
-              error={!!errors.incidentType}
-              helperText={errors.incidentType}
-            >
-              {incidentTypes.map((type) => (
-                <MenuItem key={type} value={type}>
-                  {type}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Grid> */}
 
           <Grid item xs={5.5} marginTop={10}>
             <TextField
               variant="outlined"
               label="Incident Category"
-              name="incidentCategory"
-              value={formData.incidentCategory}
+              name="categoryId"
+              value={formData.categoryId}
               onChange={handleInputChange}
               select
               fullWidth
-              error={!!errors.incidentCategory}
-              helperText={errors.incidentCategory}
+              error={!!errors.categoryId}
+              helperText={errors.categoryId}
             >
-              {incidentTypes.map((type) => (
-                <MenuItem key={type} value={type}>
-                  {type}
+              {categories.map((category) => (
+                <MenuItem key={category.id} value={category.id}>
+                  {category.incidentType}
                 </MenuItem>
               ))}
             </TextField>
           </Grid>
 
-          {/* Row 2 */}
-          <Grid item xs={5.5}  marginLeft={2.75} marginRight={2} marginTop={2}>
+          <Grid item xs={5.5} marginLeft={2.75} marginRight={2} marginTop={2}>
             <TextField
               variant="outlined"
-              label="Name with Initials"
-              name="clientName"
-              value={formData.clientName}
+              label="Customer Name"
+              name="customerName"
+              value={formData.customerName}
               onChange={handleInputChange}
               fullWidth
-              error={!!errors.clientName}
-              helperText={errors.clientName}
+              error={!!errors.customerName}
+              helperText={errors.customerName}
             />
           </Grid>
           <Grid item xs={5.5} marginTop={2}>
             <TextField
               variant="outlined"
-              label="NIC"
-              name="clientNIC"
-              value={formData.clientNIC}
+              label="Customer NIC"
+              name="customerNIC"
+              value={formData.customerNIC}
               onChange={handleInputChange}
               fullWidth
-              error={!!errors.clientNIC}
-              helperText={errors.clientNIC}
+              error={!!errors.customerNIC}
+              helperText={errors.customerNIC}
             />
           </Grid>
 
-          {/* Row 3 */}
           <Grid item xs={5.5} marginLeft={2.75} marginRight={2} marginTop={2}>
             <TextField
               variant="outlined"
-              label="Home Address"
-              name="clientAddress"
-              value={formData.clientAddress}
+              label="Customer Address"
+              name="address"
+              value={formData.address}
               onChange={handleInputChange}
               fullWidth
-              error={!!errors.clientAddress}
-              helperText={errors.clientAddress}
+              error={!!errors.address}
+              helperText={errors.address}
             />
           </Grid>
-          <Grid item xs={5.5} marginTop={2} >
+          <Grid item xs={5.5} marginTop={2}>
             <TextField
               variant="outlined"
               label="Telephone No"
-              name="clientTellNo"
-              value={formData.clientTellNo}
+              name="customerTelNo"
+              value={formData.customerTelNo}
               onChange={handleInputChange}
               fullWidth
-              error={!!errors.clientTellNo}
-              helperText={errors.clientTellNo}
+              error={!!errors.customerTelNo}
+              helperText={errors.customerTelNo}
             />
           </Grid>
 
-          {/* Row 4 */}
-          <Grid item xs={11.15} marginLeft={2.75} marginTop={2}>
+          <Grid item xs={5.5} marginLeft={2.75} marginRight={2} marginTop={2}>
             <TextField
               variant="outlined"
-              label="Email Address"
-              name="clientEmail"
+              label="Customer Email"
+              name="customerEmail"
               type="email"
-              value={formData.clientEmail}
+              value={formData.customerEmail}
               onChange={handleInputChange}
               fullWidth
-              error={!!errors.clientEmail}
-              helperText={errors.clientEmail}
+              error={!!errors.customerEmail}
+              helperText={errors.customerEmail}
             />
           </Grid>
 
-          {/* Buttons */}
+          <Grid item xs={5.5} marginTop={2}>
+            <TextField
+              variant="outlined"
+              label="Incident Description"
+              name="incidentDescription"
+              value={formData.incidentDescription}
+              onChange={handleInputChange}
+              fullWidth
+              error={!!errors.incidentDescription}
+              helperText={errors.incidentDescription}
+            />
+          </Grid>
+
           <Grid item xs={5.5} marginLeft={2.75} marginRight={2} marginTop={4}>
-            <Button 
-            type="button" 
-            variant="contained" 
-            color="success"
-            fullWidth>
+            <Button type="submit" variant="contained" color="success" fullWidth>
               Submit
             </Button>
           </Grid>
@@ -231,14 +276,6 @@ const AddIncident = () => {
           </Grid>
         </Grid>
       </form>
-
-      <Box sx={{ textAlign: "center", marginTop: "20px" }}>
-        <img
-          src="src/assets/Incident.png"
-          alt="Incident"
-          style={{ maxWidth: "100%", height: "auto", borderRadius: "8px" }}
-        />
-      </Box>
     </Box>
   );
 };

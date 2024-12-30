@@ -10,10 +10,11 @@ import {
 import { ArrowBackIosNew } from "@mui/icons-material";
 
 export default function EditIncident({ data, onBack }) {
-  const [formData, setFormData] = useState(data || {}); // Initialize formData with provided data
+  console.log("Data:", data);
+  const [formData, setFormData] = useState(data || {});
   const [errors, setErrors] = useState({});
 
-  const incidentTypes = ["Normal", "Urgent", "Crucial"]; // Define incident types
+  const incidentTypes = ["Normal", "Urgent", "Crucial"];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -43,11 +44,15 @@ export default function EditIncident({ data, onBack }) {
     setFormData({
       incident: "",
       incidentType: "",
-      clientName: "",
-      clientNIC: "",
+      customerName: "",
+      customerNIC: "",
       clientAddress: "",
-      clientTellNo: "",
-      clientEmail: "",
+      customerTelNo: "",
+      customerEmail: "",
+      incidentDescription: "",
+      status: "",
+      incidentCategory: "",
+      address: "",
     });
     setErrors({});
   };
@@ -118,25 +123,25 @@ export default function EditIncident({ data, onBack }) {
           <Grid item xs={6}>
             <TextField
               variant="standard"
-              label="Client Name"
-              name="clientName"
-              value={formData.clientName || ""}
+              label="Customer Name"
+              name="customerName"
+              value={formData.customerName || ""}
               onChange={handleChange}
               fullWidth
-              error={!!errors.clientName}
-              helperText={errors.clientName}
+              error={!!errors.customerName}
+              helperText={errors.customerName}
             />
           </Grid>
           <Grid item xs={6}>
             <TextField
               variant="standard"
-              label="Client NIC"
-              name="clientNIC"
-              value={formData.clientNIC || ""}
+              label="Customer NIC"
+              name="customerNIC"
+              value={formData.customerNIC || ""}
               onChange={handleChange}
               fullWidth
-              error={!!errors.clientNIC}
-              helperText={errors.clientNIC}
+              error={!!errors.customerNIC}
+              helperText={errors.customerNIC}
             />
           </Grid>
 
@@ -144,25 +149,25 @@ export default function EditIncident({ data, onBack }) {
           <Grid item xs={6}>
             <TextField
               variant="standard"
-              label="Client Address"
-              name="clientAddress"
-              value={formData.clientAddress || ""}
+              label="Customer Address"
+              name="address"
+              value={formData.address || ""}
               onChange={handleChange}
               fullWidth
-              error={!!errors.clientAddress}
-              helperText={errors.clientAddress}
+              error={!!errors.address}
+              helperText={errors.address}
             />
           </Grid>
           <Grid item xs={6}>
             <TextField
               variant="standard"
-              label="Client Tell No"
-              name="clientTellNo"
-              value={formData.clientTellNo || ""}
+              label="Customer Tel No"
+              name="customerTelNo"
+              value={formData.customerTelNo || ""}
               onChange={handleChange}
               fullWidth
-              error={!!errors.clientTellNo}
-              helperText={errors.clientTellNo}
+              error={!!errors.customerTelNo}
+              helperText={errors.customerTelNo}
             />
           </Grid>
 
@@ -170,14 +175,14 @@ export default function EditIncident({ data, onBack }) {
           <Grid item xs={12}>
             <TextField
               variant="standard"
-              label="Client Email"
-              name="clientEmail"
+              label="Customer Email"
+              name="customerEmail"
               type="email"
-              value={formData.clientEmail || ""}
+              value={formData.customerEmail || ""}
               onChange={handleChange}
               fullWidth
-              error={!!errors.clientEmail}
-              helperText={errors.clientEmail}
+              error={!!errors.customerEmail}
+              helperText={errors.customerEmail}
             />
           </Grid>
 

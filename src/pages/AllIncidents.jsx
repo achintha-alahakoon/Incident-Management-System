@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 import { BiEdit } from "react-icons/bi";
@@ -41,22 +41,25 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
 const getColumns = (handleEditClick) => [
   { field: "id", headerName: "Job No", width: 80 },
   { field: "incident", headerName: "Incident", width: 170 },
-  { field: "incidentType", headerName: "Incident Type", width: 130 },
-  { field: "clientName", headerName: "Client Name", width: 160 },
-  { field: "clientTellNo", headerName: "Client Tell No", width: 120 },
-  { field: "clientEmail", headerName: "Client Email", width: 170 },
-  { field: "assignedEmployee", headerName: "Assigned Employee", width: 160 },
+  { field: "categoryId", headerName: "Incident Category", width: 130 },
+  { field: "customerName", headerName: "Customer Name", width: 160 },
+  { field: "customerTelNo", headerName: "Mobile", width: 120 },
+  { field: "customerEmail", headerName: "Email", width: 170 },
+  { field: "incidentDescription", headerName: "Description", width: 200 },
   {
-    field: "progressStatus",
-    headerName: "Progress Status",
-    width: 150,
+    field: "status",
+    headerName: "Status",
+    width: 100,
     sortable: false,
-    renderCell: (params) => {
-      const statusClass = `progress-${params.value.toLowerCase().replace(/\s+/g, "-")}`;
-      return (
-        <div className={`progress-status ${statusClass}`}>{params.value}</div>
-      );
-    },
+    renderCell: (params) => (
+      <div
+        className={`progress-status ${
+          params.value === "true" ? "progress-assigned" : "progress-not-assigned"
+        }`}
+      >
+        {params.value === "true" ? "Assigned" : "Not Assigned"}
+      </div>
+    ),
   },
   {
     field: "action",
@@ -77,72 +80,58 @@ const getColumns = (handleEditClick) => [
   },
 ];
 
-const rows = [
-  {
-    id: 1,
-    incident: "Incident 1",
-    incidentType: "Crucial",
-    clientName: "Client 1",
-    clientTellNo: "070 3212590",
-    clientEmail: "achinth@gmail.com",
-    assignedEmployee: "Saman Kumara",
-    progressStatus: "Assigned",
-  },
-  {
-    id: 2,
-    incident: "Incident 2",
-    incidentType: "Urgent",
-    clientName: "Client 2",
-    clientTellNo: "072 6881781",
-    clientEmail: "isuru@gmail.com",
-    assignedEmployee: "Dinushi Tharushika",
-    progressStatus: "Assigned",
-  },
-  {
-    id: 3,
-    incident: "Incident 3",
-    incidentType: "Normal",
-    clientName: "Client 3",
-    clientTellNo: "076 3212590",
-    clientEmail: "achinth@gmail.com",
-    assignedEmployee: "Saman Kumara",
-    progressStatus: "Assigned",
-  },
-  {
-    id: 4,
-    incident: "Incident 4",
-    incidentType: "Urgent",
-    clientName: "Client 4",
-    clientTellNo: "072 6881781",
-    clientEmail: "isuru@gmail.com",
-    assignedEmployee: "",
-    progressStatus: "Not Assigned",
-  },
-  {
-    id: 5,
-    incident: "Incident 5",
-    incidentType: "Normal",
-    clientName: "Client 5",
-    clientTellNo: "076 3212590",
-    clientEmail: "achinth@gmail.com",
-    assignedEmployee: "Saman Kumara",
-    progressStatus: "Assigned",
-  },
-  {
-    id: 6,
-    incident: "Incident 6",
-    incidentType: "Normal",
-    clientName: "Client 6",
-    clientTellNo: "076 3212590",
-    clientEmail: "achinth@gmail.com",
-    assignedEmployee: "Saman Kumara",
-    progressStatus: "Assigned",
-  },
-];
-
 export default function AllIncidents() {
-  const [editData, setEditData] = React.useState(null);
-  const [isEditing, setIsEditing] = React.useState(false);
+
+  const [rows, setRows] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [editData, setEditData] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+
+  React.useEffect(() => {
+    const fetchIncidents = async () => {
+        const token = localStorage.getItem("token");
+
+        try {
+            const response = await fetch("http://localhost:8080/incident/get", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            console.log("Response status:", response);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log("Data:", data);
+
+            const formattedData = data.map((incident) => ({
+                id: incident.id,
+                incident: incident.incident,
+                categoryId: incident.categoryId,
+                customerName: incident.customerName,
+                customerNIC: incident.customerNIC,
+                customerTelNo: incident.customerTelNo,
+                customerEmail: incident.customerEmail,
+                incidentDescription: incident.incidentDescription,
+                status: incident.status,
+                address: incident.address
+            }));
+
+            setRows(formattedData);
+        } catch (error) {
+            console.error("Failed to fetch incidents:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    fetchIncidents();
+}, []);
+  
 
   const handleEditClick = (row) => {
     setEditData(row);
@@ -162,6 +151,7 @@ export default function AllIncidents() {
           <StyledDataGrid
             rows={rows}
             columns={getColumns(handleEditClick)}
+            loading={loading}
             initialState={{
               pagination: {
                 paginationModel: {
