@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  TextField,
-  MenuItem,
-  Button,
-  Grid,
-  Box,
-} from "@mui/material";
+import { TextField, MenuItem, Button, Grid, Box } from "@mui/material";
 import axios from "axios";
 import Swal from "sweetalert2";
 
@@ -252,10 +246,15 @@ const AddIncident = () => {
               name="incidentDescription"
               value={formData.incidentDescription}
               onChange={handleInputChange}
+              select
               fullWidth
               error={!!errors.incidentDescription}
               helperText={errors.incidentDescription}
-            />
+            >
+              <MenuItem value="Normal">Normal</MenuItem>
+              <MenuItem value="Crucial">Crucial</MenuItem>
+              <MenuItem value="Urgent">Urgent</MenuItem>
+            </TextField>
           </Grid>
 
           <Grid item xs={5.5} marginLeft={2.75} marginRight={2} marginTop={4}>

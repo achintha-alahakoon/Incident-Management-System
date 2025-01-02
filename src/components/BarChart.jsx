@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 
 const BarChart = () => {
-  const chartOptions = {
+  const [chartSeries, setChartSeries] = useState([]);
+  const [chartOptions, setChartOptions] = useState({
     chart: {
       type: 'bar',
       zoom: {
@@ -27,74 +28,44 @@ const BarChart = () => {
       },
     },
     dataLabels: {
-      enabled: false, 
+      enabled: false,
     },
     colors: ['#D2E0FB'],
-  };
+  });
 
-  const chartSeries = [
-    {
-      name: 'Incidents',
-      data: [
-        {
-          x: new Date('2024-11-01').getTime(),
-          y: 76,
-        },
-        {
-          x: new Date('2024-11-02').getTime(),
-          y: 85,
-        },
-        {
-          x: new Date('2024-11-03').getTime(),
-          y: 92,
-        },
-        {
-          x: new Date('2024-11-04').getTime(),
-          y: 76,
-        },
-        {
-          x: new Date('2024-11-05').getTime(),
-          y: 85,
-        },
-        {
-          x: new Date('2024-11-06').getTime(),
-          y: 92,
-        },
-        {
-          x: new Date('2024-11-07').getTime(),
-          y: 76,
-        },
-        {
-          x: new Date('2024-11-08').getTime(),
-          y: 85,
-        },
-        {
-          x: new Date('2024-11-09').getTime(),
-          y: 92,
-        },
-        {
-          x: new Date('2024-11-10').getTime(),
-          y: 76,
-        },
-        {
-          x: new Date('2024-11-11').getTime(),
-          y: 85,
-        },
-        {
-          x: new Date('2024-11-12').getTime(),
-          y: 92,
-        },
-        {
-          x: new Date('2024-11-13').getTime(),
-          y: 85,
-        },
-        {
-          x: new Date('2024-11-14').getTime(),
-          y: 92,
-        },
-      ],
-    },
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = localStorage.getItem("token");
+      try {
+        const response = await fetch('http://localhost:8080/incident/get', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const data = await response.json();
+
+        const groupedData = data.reduce((acc, incident) => {
+          const date = incident.incidentDate;
+          acc[date] = (acc[date] || 0) + 1;
+          return acc;
+        }, {});
+
+        const transformedData = Object.entries(groupedData).map(([date, count]) => ({
+          x: new Date(date).getTime(),
+          y: count,
+        }));
+
+        setChartSeries([{ name: 'Incidents', data: transformedData }]);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div>
