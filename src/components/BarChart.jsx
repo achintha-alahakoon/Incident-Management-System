@@ -30,7 +30,7 @@ const BarChart = () => {
     dataLabels: {
       enabled: false,
     },
-    colors: ['#D2E0FB'],
+    colors: ['#3498DB'],
   });
 
   useEffect(() => {

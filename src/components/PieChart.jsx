@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
+import axios from "axios";
 
 const RadialBarChart = () => {
-
-  const rawSeries = [12000, 300, 61];
-  const series = rawSeries.map((value) => (value / 12361) * 100); // Convert to percentages
+  const [series, setSeries] = useState([0, 0]); // Initial series values
 
   const options = {
     chart: {
@@ -18,7 +17,7 @@ const RadialBarChart = () => {
         endAngle: 270,
         hollow: {
           margin: 5,
-          size: "30%",
+          size: "50%",
           background: "transparent",
         },
         dataLabels: {
@@ -32,8 +31,8 @@ const RadialBarChart = () => {
         },
       },
     },
-    colors: ["seaGreen","#1450A3", "red"],
-    labels: ["Completed", "In Progress", "Declined"],
+    colors: ["#2ECC71", "#3498DB"],
+    labels: ["Completed", "In Progress"],
     responsive: [
       {
         breakpoint: 480,
@@ -47,19 +46,39 @@ const RadialBarChart = () => {
     legend: {
       show: true,
       floating: true,
-      fontSize: "14px",
+      fontSize: "16px",
       position: "left",
       offsetX: 0,
       offsetY: 0,
     },
   };
 
+  useEffect(() => {
+    
+    const token = localStorage.getItem("token");
+
+    axios
+      .get("http://localhost:8080/incident/getCount", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        const { completed, inProgress, total } = response.data;
+        const completedPercentage = (completed / total) * 100 || 0;
+        const inProgressPercentage = (inProgress / total) * 100 || 0;
+        setSeries([completedPercentage, inProgressPercentage]);
+      })
+      .catch((error) => {
+        console.error("Error fetching incident data:", error);
+      });
+  }, []);
+
   return (
     <div>
-      <ReactApexChart options={options} series={series} type="radialBar" height={300} />
+      <ReactApexChart options={options} series={series} type="radialBar" height={330} />
     </div>
   );
 };
 
 export default RadialBarChart;
-

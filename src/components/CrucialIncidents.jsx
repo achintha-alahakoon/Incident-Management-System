@@ -85,7 +85,7 @@ const CrucialIncidents = () => {
               <Typography fontSize="16px" fontWeight="600" color="#333">
                 {incident.title}
               </Typography>
-              <Typography fontSize="12px" color="#666">
+              <Typography fontSize="12px" color="#666" marginTop={"5px"}>
                 Job No: {incident.jobNo}
               </Typography>
             </Box>

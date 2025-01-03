@@ -45,11 +45,11 @@ const getColumns = (handleEditClick) => [
   { field: "customerName", headerName: "Customer Name", width: 160 },
   { field: "customerTelNo", headerName: "Mobile", width: 120 },
   { field: "customerEmail", headerName: "Email", width: 170 },
-  { field: "incidentDescription", headerName: "Description", width: 200 },
+  { field: "incidentDescription", headerName: "Description", width: 170 },
   {
     field: "status",
     headerName: "Status",
-    width: 100,
+    width: 130,
     sortable: false,
     renderCell: (params) => (
       <div

@@ -136,8 +136,6 @@ const AddIncident = () => {
         padding: "20px",
         backgroundColor: "#fff",
         position: "relative",
-        borderRadius: "8px",
-        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
       }}
     >
       <form onSubmit={handleSubmit}>
